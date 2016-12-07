@@ -18,7 +18,7 @@ volatile int flag = 0;
 struct sockaddr_in addr, addr1;
 
 int main() {
-  sem_t *proiz = sem_open(PROIZESEM, 0);
+ sem_t *proiz = sem_open(PROIZSEM, 0);
  sock = socket(AF_INET, SOCK_DGRAM, 0);
  sock1 = socket(AF_INET, SOCK_DGRAM, 0);
  addr.sin_family = AF_INET;
@@ -32,18 +32,13 @@ int main() {
  while(1) {
    sem_wait(proiz);
    std::cout << "WAITING FOR SIGNAL in proiz thread" << std::endl;
-   std::cout << "WAITING FOR FIRST NUM...\n";
+   std::cout << "WAITING 1...\n";
    bytes_read = recvfrom(sock, &num1, sizeof(float), 0, NULL, NULL);
-   total = total + bytes_read;
-   std::cout << "Received " << num1 << std::endl;
-   std::cout << "WAITING FOR SECOND NUM...\n";
+   std::cout << "WAITING 2...\n";
    bytes_read = recvfrom(sock, &num2, sizeof(float), 0, NULL, NULL);
-   std::cout << "Received " << num2 << std::endl;
-   total = total + bytes_read;
    float res = num1*num2;
    std::cout << "PROIZ: " << res << std::endl;
    fflush(stdout);
-   std::cout << "Sending data back...\n";
    send(sock1, &res, sizeof(res), 0);
  }
  return 0;
