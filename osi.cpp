@@ -39,21 +39,25 @@ int main() {
   if (p1 == 0)
   {
     execl("./sqrt", "");
+    std::cout << "запуск процесса" << std::endl;
   }
   else
   if (p2 == 0)
   {
     execl("./proiz", "");
+std::cout << "запуск процесса" << std::endl;
   }
   else
   if (p3==0)
   {
     execl("./raz", "");
+std::cout << "запуск процесса" << std::endl;
   }
   else
   if (p4==0)
   {
     execl("./del", "");
+std::cout << "запуск процесса" << std::endl;
   }
   else
   {
@@ -62,6 +66,7 @@ int main() {
   addr5.sin_port = htons(PORT);
   addr5.sin_addr.s_addr = inet_addr(MYSOCK);
   bind(mysock, (struct sockaddr *)&addr5, sizeof(addr5));
+std::cout << "иниц сокета" << std::endl;
 
   proizsock = socket(AF_INET, SOCK_DGRAM, 0);
   addr1.sin_family = AF_INET;
@@ -69,11 +74,17 @@ int main() {
   addr1.sin_addr.s_addr = inet_addr(PROIZIP);
   connect(proizsock, (struct sockaddr *)&addr1, sizeof(addr1));
 
+std::cout << "иниц сокета" << std::endl;
+
+
   razsock = socket(AF_INET, SOCK_DGRAM, 0);
   addr2.sin_family = AF_INET;
   addr2.sin_port = htons(PORT);
   addr2.sin_addr.s_addr = inet_addr(RAZIP);
   connect(razsock, (struct sockaddr *)&addr2, sizeof(addr2));
+
+std::cout << "иниц сокета" << std::endl;
+
 
   sqrtsock = socket(AF_INET, SOCK_DGRAM, 0);
   addr3.sin_family = AF_INET;
@@ -81,11 +92,17 @@ int main() {
   addr3.sin_addr.s_addr = inet_addr(SQRTIP);
   connect(sqrtsock, (struct sockaddr *)&addr3, sizeof(addr3));
 
+std::cout << "иниц сокета" << std::endl;
+
+
   delsock = socket(AF_INET, SOCK_DGRAM, 0);
   addr4.sin_family = AF_INET;
   addr4.sin_port = htons(PORT);
   addr4.sin_addr.s_addr = inet_addr(DELIP);
   connect(delsock, (struct sockaddr *)&addr4, sizeof(addr4));
+
+std::cout << "иниц сокета" << std::endl;
+
 
   float a,b,c, b2, x1, x2, d;
   cout << "Введите коэффициенты\n";
@@ -93,7 +110,13 @@ int main() {
   cout << "A:" << a << " B:" << b << " C:" << c << endl;
   c=4*c;
   sem_post(proiz);
+
+std::cout << "отправляем первое" << std::endl;
+
   send(proizsock, &b, sizeof(b), 0);
+
+std::cout << "отправляем вторые" << std::endl;
+
   send(proizsock, &b, sizeof(b), 0);
   bytes_read=recvfrom(mysock, &b2, sizeof(float), 0, NULL, NULL);
   cout << "Значение b^2 " << b2 << endl;
@@ -131,16 +154,19 @@ int main() {
   send(razsock, &b, sizeof(b), 0);
   bytes_read=recvfrom(mysock, &x2, sizeof(float), 0, NULL, NULL);
 
+std::cout << "x2" << x2 <<std::endl;
+
+
   sem_post(del);
-  send(proizsock, &x1, sizeof(x1), 0);
-  send(proizsock, &a, sizeof(a), 0);
+  send(delsock, &x1, sizeof(x1), 0);
+  send(delsock, &a, sizeof(a), 0);
   bytes_read=recvfrom(mysock, &x1, sizeof(float), 0, NULL, NULL);
   cout << "x1 " << x1 << endl;
   sem_trywait(del);
 
   sem_post(del);
-  send(proizsock, &x2, sizeof(x2), 0);
-  send(proizsock, &a, sizeof(a), 0);
+  send(delsock, &x2, sizeof(x2), 0);
+  send(delsock, &a, sizeof(a), 0);
   bytes_read=recvfrom(mysock, &x2, sizeof(float), 0, NULL, NULL);
   cout << "x2 " << x2 << endl;
 
