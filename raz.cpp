@@ -32,18 +32,13 @@ int main() {
  while(1) {
    sem_wait(raz);
    std::cout << "WAITING FOR SIGNAL in raz thread" << std::endl;
-   std::cout << "WAITING FOR FIRST NUM...\n";
+   std::cout << "WAITING 1...\n";
    bytes_read = recvfrom(sock, &num1, sizeof(float), 0, NULL, NULL);
-   total = total + bytes_read;
-   std::cout << "Received " << num1 << std::endl;
-   std::cout << "WAITING FOR SECOND NUM...\n";
+   std::cout << "WAITING 2...\n";
    bytes_read = recvfrom(sock, &num2, sizeof(float), 0, NULL, NULL);
-   std::cout << "Received " << num2 << std::endl;
-   total = total + bytes_read;
    float res = num1-num2;
    std::cout << "RAZ: " << res << std::endl;
    fflush(stdout);
-   std::cout << "Sending data back...\n";
    send(sock1, &res, sizeof(res), 0);
  }
  return 0;
