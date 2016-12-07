@@ -31,19 +31,13 @@ int main() {
  connect(sock1, (struct sockaddr *)&addr1, sizeof(addr1));
  while(1) {
    sem_wait(del);
-   std::cout << "WAITING FOR SIGNAL in del thread" << std::endl;
-   std::cout << "WAITING FOR FIRST NUM...\n";
+   std::cout << "WAITING 1..." << std::endl;
    bytes_read = recvfrom(sock, &num1, sizeof(float), 0, NULL, NULL);
-   total = total + bytes_read;
-   std::cout << "Received " << num1 << std::endl;
-   std::cout << "WAITING FOR SECOND NUM...\n";
+   std::cout << "WAITING 2...\n";
    bytes_read = recvfrom(sock, &num2, sizeof(float), 0, NULL, NULL);
-   std::cout << "Received " << num2 << std::endl;
-   total = total + bytes_read;
    float res = num1/num2;
    std::cout << "DEL: " << res << std::endl;
    fflush(stdout);
-   std::cout << "Sending data back...\n";
    send(sock1, &res, sizeof(res), 0);
  }
  return 0;
