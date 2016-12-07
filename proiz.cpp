@@ -18,7 +18,7 @@ volatile int flag = 0;
 struct sockaddr_in addr, addr1;
 
 int main() {
-  sem_t *sum = sem_open(PROIZESEM, 0);
+  sem_t *proiz = sem_open(PROIZESEM, 0);
  sock = socket(AF_INET, SOCK_DGRAM, 0);
  sock1 = socket(AF_INET, SOCK_DGRAM, 0);
  addr.sin_family = AF_INET;
@@ -30,7 +30,7 @@ int main() {
  addr1.sin_addr.s_addr = inet_addr("127.0.0.5");
  connect(sock1, (struct sockaddr *)&addr1, sizeof(addr1));
  while(1) {
-   sem_wait(sum);
+   sem_wait(proiz);
    std::cout << "WAITING FOR SIGNAL in proiz thread" << std::endl;
    std::cout << "WAITING FOR FIRST NUM...\n";
    bytes_read = recvfrom(sock, &num1, sizeof(float), 0, NULL, NULL);
