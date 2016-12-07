@@ -119,9 +119,9 @@ int main() {
   total+=bytes_read;
   cout << "Sending raz" << endl;
 
-  sem_post(sqrts); //тут сука мы блять корень хотим получить
-  send(sqrtsock, &d, sizeof(d), 0); //отправляем блядскую сумму
-  bytes_read=recvfrom(mysock, &d, sizeof(float), 0, NULL, NULL); //читаем блядский результат
+  sem_post(sqrts); 
+  send(sqrtsock, &d, sizeof(d), 0);
+  bytes_read=recvfrom(mysock, &d, sizeof(float), 0, NULL, NULL); 
   cout << "Reciving sqrt " << d << endl;
   total+=bytes_read;
 
