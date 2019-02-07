@@ -10,7 +10,7 @@
 #include <pthread.h>
 #include <semaphore.h>
 #include <fcntl.h>
-#define PROIZSEM "/proizsem" //Названия для семафоров епт которые нужны для синхронизации
+#define PROIZSEM "/proizsem" //Названия для семафоров
 #define RAZSEM "/razsem"
 #define SQRTSEM "/sqrtsem"
 #define DELSEM "/delsem"
